@@ -1,22 +1,19 @@
-import { Entry, EntryCreationData } from "../../data/entries/Entry";
+import { EntryDto, EntryCreationData } from "../../data/entries/EntryDto";
+import Entries from "../Entries";
+
+import "./Home.styles.scss";
 
 export interface HomeProps {
-  entries: Entry[];
+  entries: EntryDto[];
   addEntry: (entry: EntryCreationData) => Promise<void>;
 }
 
 function Home({ addEntry, entries }: HomeProps): JSX.Element {
   return (
-    <section>
+    <section className="app-home">
       <h2>Mindfulness entries</h2>
-      <ul>
-        {entries.map((x) => (
-          <li key={x._id}>
-            {x.primaryMood} on {x.timestamp} with {x.text}
-          </li>
-        ))}
-      </ul>
       <button
+        style={{ marginBottom: "0.5rem" }}
         onClick={() => {
           addEntry({
             primaryMood: "good",
@@ -27,6 +24,7 @@ function Home({ addEntry, entries }: HomeProps): JSX.Element {
       >
         Add entry
       </button>
+      <Entries entries={entries} />
     </section>
   );
 }

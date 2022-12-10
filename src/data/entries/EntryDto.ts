@@ -1,6 +1,6 @@
 export type PrimaryMood = "good" | "neutral" | "bad";
 
-export interface Entry {
+export interface EntryDto {
   _id: string;
   timestamp: string;
   primaryMood: PrimaryMood;
@@ -8,4 +8,4 @@ export interface Entry {
   text: string;
 }
 
-export type EntryCreationData = Omit<Entry, "_id" | "timestamp">;
+export type EntryCreationData = Omit<EntryDto, "_id" | "timestamp">;

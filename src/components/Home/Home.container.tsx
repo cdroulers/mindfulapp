@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Entry, EntryCreationData } from "../../data/entries/Entry";
+import { EntryDto, EntryCreationData } from "../../data/entries/EntryDto";
 import { getEntries, addEntry } from "../../data/entries/service";
 import Home, { HomeProps } from "./Home";
 
 interface HomeContainerProps extends Omit<HomeProps, "entries" | "addEntry"> {}
 
 function HomeContainer({ ...props }: HomeContainerProps) {
-  const [entries, setEntries] = useState<Entry[] | undefined>();
+  const [entries, setEntries] = useState<EntryDto[] | undefined>();
 
   useEffect(() => {
     getEntries().then((entries) => setEntries(entries));

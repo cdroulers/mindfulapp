@@ -1,14 +1,13 @@
 import React from "react";
 import Home from "./components/Home";
+import Header from "./components/Header";
+
 import "./App.css";
 
 function App() {
   return (
     <div className="app">
-      <header className="app-header">
-        <h1>Mindful App</h1>
-      </header>
-
+      <Header />
       <Home></Home>
     </div>
   );
