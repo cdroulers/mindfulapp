@@ -20,8 +20,7 @@ function Home({ addEntry, entries }: HomeProps): JSX.Element {
             secondaryMoods: ["happy"],
             text: "Loving life",
           });
-        }}
-      >
+        }}>
         Add entry
       </button>
       <Entries entries={entries} />
