@@ -1,0 +1,17 @@
+.app-mood-modal {
+  .form-input {
+    margin-bottom: 1rem;
+  }
+
+  .form-input.mood {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-input.text {
+    textarea {
+      width: 100%;
+      min-height: 4rem;
+    }
+  }
+}
