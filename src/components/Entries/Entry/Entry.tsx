@@ -9,14 +9,14 @@ export interface EntryProps {
 function Entry({ entry }: EntryProps): JSX.Element {
   return (
     <article className="app-entry">
-      <h3>
+      <h4>
         {entry.primaryMood}
         {entry.secondaryMoods.length > 0 && (
           <small>
             (<span>{entry.secondaryMoods[0]}</span>)
           </small>
         )}
-      </h3>
+      </h4>
 
       {entry.text}
 
