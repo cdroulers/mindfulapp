@@ -2,7 +2,6 @@
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
-    "build": true,
     "typings/main": true,
     "typings/main.d.ts": true,
     "node_modules": true
