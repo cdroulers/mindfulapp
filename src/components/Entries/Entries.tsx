@@ -1,6 +1,7 @@
 import { EntryDto } from "../../data/entries/EntryDto";
 import groupBy from "../../shared/groupBy";
 import Entry from "./Entry";
+import List from "@mui/material/List";
 
 import "./Entries.styles.scss";
 
@@ -15,13 +16,11 @@ function Entries({ entries }: EntriesProps): JSX.Element {
       {Array.from(groupedByDate.keys()).map((x) => (
         <li key={x}>
           <h3>{x}</h3>
-          <ul>
+          <List>
             {groupedByDate.get(x)!.map((x) => (
-              <li key={x._id}>
-                <Entry entry={x} />
-              </li>
+              <Entry key={x._id} entry={x} />
             ))}
-          </ul>
+          </List>
         </li>
       ))}
     </ul>
