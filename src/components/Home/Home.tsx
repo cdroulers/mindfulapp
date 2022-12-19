@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EntryDto, EntryCreationData } from "../../data/entries/EntryDto";
 import Entries from "../Entries";
 import MoodModal from "../MoodModal";
+import Button from "@mui/material/Button";
 
 import "./Home.styles.scss";
 
@@ -17,13 +18,14 @@ function Home({ addEntry, entries }: HomeProps): JSX.Element {
   return (
     <section className="app-home">
       <h2>Mindfulness entries</h2>
-      <button
+      <Button
+        variant="outlined"
         style={{ marginBottom: "0.5rem" }}
         onClick={() => {
           setAddModalVisible(true);
         }}>
         Add entry
-      </button>
+      </Button>
       <Entries entries={entries} />
       <MoodModal addEntry={addEntry} visible={addModalVisible} onClose={handleClose} />
     </section>

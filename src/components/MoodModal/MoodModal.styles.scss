@@ -3,9 +3,11 @@
     margin-bottom: 1rem;
   }
 
-  .form-input.mood {
-    display: flex;
-    justify-content: space-between;
+  .form-input.mood > div {
+    > div {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   .form-input.text {

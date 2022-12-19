@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.0",
     "pouchdb": "^7.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -57,7 +61,6 @@
     ]
   },
   "volta": {
-    "node": "18.12.1",
-    "yarn": "1.22.19"
+    "node": "18.12.1"
   }
 }

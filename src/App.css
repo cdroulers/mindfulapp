@@ -1,2 +1,7 @@
 .app {
 }
+
+/* MUI overrides */
+.MuiFormControl-root {
+  width: 100%;
+}

@@ -3,6 +3,12 @@ import { EntryCreationData } from "../../data/entries/EntryDto";
 import Modal from "../shared/Modal";
 
 import "./MoodModal.styles.scss";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 export interface MoodModalProps {
   visible?: boolean;
@@ -40,29 +46,40 @@ function MoodModal({ addEntry, onClose, visible }: MoodModalProps): JSX.Element 
       className="app-mood-modal"
       actions={
         <>
-          <button type="submit" form="mood-form">
+          <Button type="reset" form="mood-form" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="submit" form="mood-form" variant="contained">
             Save
-          </button>
+          </Button>
         </>
       }>
       <form id="mood-form" onChange={handleChange} onSubmit={handleSubmit}>
-        <p>Tell us about how you feel right now</p>
+        <p id="primaryMood-label">Tell us about how you feel right now</p>
         <div className="form-input mood">
-          <label>
-            <input type="radio" name="primaryMood" value="good" /> Good
-          </label>
-          <label>
-            <input type="radio" name="primaryMood" value="neutral" /> Neutral
-          </label>
-          <label>
-            <input type="radio" name="primaryMood" value="bad" /> Bad
-          </label>
+          <FormControl>
+            <RadioGroup
+              aria-labelledby="primaryMood-label"
+              name="primaryMood"
+              row
+              value={entry.primaryMood}>
+              <FormControlLabel value="good" control={<Radio />} label="Good" />
+              <FormControlLabel value="neutral" control={<Radio />} label="Neutral" />
+              <FormControlLabel value="bad" control={<Radio />} label="Bad" />
+            </RadioGroup>
+          </FormControl>
         </div>
         <div className="form-input text">
-          <label>
-            Add a few words to describe why you feel like that
-            <textarea name="text"></textarea>
-          </label>
+          <FormControl>
+            <p id="text-label">Add a few words to describe why you feel like that</p>
+            <TextField
+              aria-labelledby="text-label"
+              multiline
+              maxRows={5}
+              name="text"
+              value={entry.text}
+            />
+          </FormControl>
         </div>
       </form>
     </Modal>

@@ -20,8 +20,9 @@
     "ServiceWorkerGlobalScope": "readonly"
   },
   "rules": {
-    "react/react-in-jsx-scope": 0,
+    "react/react-in-jsx-scope": "off",
     "prettier/prettier": "error",
+    "no-unused-vars": "warn",
     "@typescript-eslint/no-unused-vars": "warn"
   }
 }
