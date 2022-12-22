@@ -28,6 +28,7 @@ function Header(props: HeaderProps) {
 
   const changeLang = (lang: string) => {
     i18n.changeLanguage(lang);
+    handleClose();
   };
 
   return (

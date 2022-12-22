@@ -1,0 +1,9 @@
+{
+  "cancel": "Annuler",
+  "save": "Enregistrer",
+  "primaryMood": {
+    "good": "Bien",
+    "neutral": "Neutre",
+    "bad": "Mal"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "cancel": "Cancel",
+  "save": "Save",
+  "primaryMood": {
+    "good": "Good",
+    "neutral": "Neutral",
+    "bad": "Bad"
+  }
+}

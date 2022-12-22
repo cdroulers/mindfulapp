@@ -9,12 +9,15 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 import "./Entry.styles.scss";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 
 export interface EntryProps {
   entry: EntryDto;
 }
 
 function Entry({ entry }: EntryProps): JSX.Element {
+  const [t] = useTranslation(["Shared"]);
+  const primaryMood = t(`Shared:primaryMood.${entry.primaryMood}`);
   return (
     <ListItem className="app-entry" divider>
       <ListItemAvatar>
@@ -28,7 +31,7 @@ function Entry({ entry }: EntryProps): JSX.Element {
               component="span"
               variant="body2"
               color="text.primary">
-              {entry.primaryMood}
+              {primaryMood}
             </Typography>
             {" — "}
             {entry.text}

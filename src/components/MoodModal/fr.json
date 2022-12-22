@@ -1,0 +1,8 @@
+{
+  "primaryMood": {
+    "label": "Dites-nous comment vous vous sentez en ce moment"
+  },
+  "text": {
+    "label": "Écrivez quelques mots pour mieux décrire votre sentiment présent"
+  }
+}

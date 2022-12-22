@@ -9,6 +9,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useTranslation } from "react-i18next";
 
 export interface MoodModalProps {
   visible?: boolean;
@@ -23,19 +24,20 @@ const defaultEntry: EntryCreationData = {
 };
 
 function MoodModal({ addEntry, onClose, visible }: MoodModalProps): JSX.Element {
+  const [t] = useTranslation(["MoodModal", "Home", "Shared"]);
   return (
     <Modal
       visible={visible}
-      title="Add mood"
+      title={t("Home:addEntry")}
       onClose={onClose}
       className="app-mood-modal"
       actions={
         <>
           <Button type="reset" form="mood-form" onClick={onClose}>
-            Cancel
+            {t("Shared:cancel")}
           </Button>
           <Button type="submit" form="mood-form" variant="contained">
-            Save
+            {t("Shared:save")}
           </Button>
         </>
       }>
@@ -48,6 +50,7 @@ export default MoodModal;
 
 // Small optimization to avoid re-renders.
 function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
+  const [t] = useTranslation("MoodModal");
   const [entry, setEntry] = useState<EntryCreationData>(defaultEntry);
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +68,7 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
 
   return (
     <form id="mood-form" onChange={handleChange} onSubmit={handleSubmit}>
-      <p id="primaryMood-label">Tell us about how you feel right now</p>
+      <p id="primaryMood-label">{t("primaryMood.label")}</p>
       <div className="form-input mood">
         <FormControl>
           <RadioGroup
@@ -73,15 +76,23 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
             name="primaryMood"
             row
             value={entry.primaryMood}>
-            <FormControlLabel value="good" control={<Radio />} label="Good" />
-            <FormControlLabel value="neutral" control={<Radio />} label="Neutral" />
-            <FormControlLabel value="bad" control={<Radio />} label="Bad" />
+            <FormControlLabel
+              value="good"
+              control={<Radio />}
+              label={t("Shared:primaryMood.good")}
+            />
+            <FormControlLabel
+              value="neutral"
+              control={<Radio />}
+              label={t("Shared:primaryMood.neutral")}
+            />
+            <FormControlLabel value="bad" control={<Radio />} label={t("Shared:primaryMood.bad")} />
           </RadioGroup>
         </FormControl>
       </div>
       <div className="form-input text">
         <FormControl>
-          <p id="text-label">Add a few words to describe why you feel like that</p>
+          <p id="text-label">{t("MoodModal:text.label")}</p>
           <TextField
             aria-labelledby="text-label"
             multiline

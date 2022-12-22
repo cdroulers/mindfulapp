@@ -5,6 +5,7 @@ import MoodModal from "../MoodModal";
 import Button from "@mui/material/Button";
 
 import "./Home.styles.scss";
+import { useTranslation } from "react-i18next";
 
 export interface HomeProps {
   entries: EntryDto[];
@@ -12,19 +13,20 @@ export interface HomeProps {
 }
 
 function Home({ addEntry, entries }: HomeProps): JSX.Element {
+  const [t] = useTranslation("Home");
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
 
   const handleClose = () => setAddModalVisible(false);
   return (
     <section className="app-home">
-      <h2>Mindfulness entries</h2>
+      <h2>{t("header")}</h2>
       <Button
         variant="outlined"
         style={{ marginBottom: "0.5rem" }}
         onClick={() => {
           setAddModalVisible(true);
         }}>
-        Add entry
+        {t("addEntry")}
       </Button>
       <Entries entries={entries} />
       <MoodModal addEntry={addEntry} visible={addModalVisible} onClose={handleClose} />
