@@ -5,7 +5,7 @@ import { EntryDto } from "../../../data/entries/EntryDto";
 
 const defaultEntry: EntryDto = {
   _id: "lol",
-  timestamp: "2022-12-25T00:00:00Z",
+  timestamp: new Date("2022-12-25T00:00:00Z"),
   primaryMood: "good",
   secondaryMoods: ["oh my"],
   text: "dear boy",

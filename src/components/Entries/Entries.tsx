@@ -10,7 +10,7 @@ export interface EntriesProps {
 }
 
 function Entries({ entries }: EntriesProps): JSX.Element {
-  const groupedByDate = groupBy(entries, (e) => e.timestamp.substring(0, 10));
+  const groupedByDate = groupBy(entries, (e) => e.timestamp.toISOString().substring(0, 10));
   return (
     <ul className="app-entries">
       {Array.from(groupedByDate.keys()).map((x) => (

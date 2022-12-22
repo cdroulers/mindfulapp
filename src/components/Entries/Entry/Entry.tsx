@@ -16,7 +16,7 @@ export interface EntryProps {
 }
 
 function Entry({ entry }: EntryProps): JSX.Element {
-  const [t] = useTranslation(["Shared"]);
+  const [t] = useTranslation(["Entry", "Shared"]);
   const primaryMood = t(`Shared:primaryMood.${entry.primaryMood}`);
   return (
     <ListItem className="app-entry" divider>
@@ -37,7 +37,11 @@ function Entry({ entry }: EntryProps): JSX.Element {
             {entry.text}
           </>
         }
-        secondary={<time dateTime={entry.timestamp}>{entry.timestamp}</time>}
+        secondary={
+          <time dateTime={entry.timestamp.toISOString()}>
+            {t("timestamp", { date: entry.timestamp })}
+          </time>
+        }
       />
     </ListItem>
   );

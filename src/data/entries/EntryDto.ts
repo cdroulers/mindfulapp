@@ -2,7 +2,7 @@ export type PrimaryMood = "good" | "neutral" | "bad";
 
 export interface EntryDto {
   _id: string;
-  timestamp: string;
+  timestamp: Date;
   primaryMood: PrimaryMood;
   secondaryMoods: string[];
   text: string;
