@@ -15,13 +15,14 @@ export async function getEntries(): Promise<EntryDto[]> {
   return docs.rows
     .filter((x) => Boolean(x.doc))
     .map((x) => x.doc!)
-    .map(
-      (x) =>
-        ({
-          ...x,
-          timestamp: new Date(x.timestamp),
-        } as EntryDto)
-    );
+    .map(pouchEntryToDto);
+}
+
+function pouchEntryToDto(entry: PouchEntryDto): EntryDto {
+  return {
+    ...entry,
+    timestamp: new Date(entry.timestamp),
+  };
 }
 
 export async function addEntry(entry: EntryCreationData): Promise<EntryDto> {
@@ -33,6 +34,6 @@ export async function addEntry(entry: EntryCreationData): Promise<EntryDto> {
   };
 
   await db.put(doc);
-  const wot = await db.get<EntryDto>(doc._id);
-  return wot;
+  const found = await db.get<PouchEntryDto>(doc._id);
+  return pouchEntryToDto(found);
 }
