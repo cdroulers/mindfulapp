@@ -10,6 +10,11 @@ import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useTranslation } from "react-i18next";
+import { getEmotions } from "../../data/emotions";
+import FormGroup from "@mui/material/FormGroup";
+import Checkbox from "@mui/material/Checkbox";
+
+const emotions = getEmotions();
 
 export interface MoodModalProps {
   visible?: boolean;
@@ -50,12 +55,25 @@ export default MoodModal;
 
 // Small optimization to avoid re-renders.
 function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
-  const [t] = useTranslation("MoodModal");
+  const [t] = useTranslation(["MoodModal", "Emotions"]);
   const [entry, setEntry] = useState<EntryCreationData>(defaultEntry);
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.target as unknown as HTMLInputElement;
-    setEntry({ ...entry, [target.name]: target.value });
+    const name = target.name;
+    let value: string | string[] = target.value;
+    if (name === "secondaryMoods") {
+      if (target.checked) {
+        value = [...entry.secondaryMoods, value];
+      } else {
+        value = entry.secondaryMoods.filter((x) => x !== value);
+      }
+    }
+    const others: Partial<EntryCreationData> = {};
+    if (name === "primaryMood") {
+      others.secondaryMoods = [];
+    }
+    setEntry({ ...entry, ...others, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,6 +106,26 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
             />
             <FormControlLabel value="bad" control={<Radio />} label={t("Shared:primaryMood.bad")} />
           </RadioGroup>
+        </FormControl>
+      </div>
+      <p id="secondaryMoods-label">{t("secondaryMoods.label")}</p>
+      <div className="form-input mood">
+        <FormControl>
+          <FormGroup>
+            {emotions[entry.primaryMood].map((x) => (
+              <FormControlLabel
+                key={x.code}
+                control={
+                  <Checkbox
+                    name="secondaryMoods"
+                    value={x.code}
+                    checked={entry.secondaryMoods.includes(x.code)}
+                  />
+                }
+                label={t("Emotions:" + entry.primaryMood + "." + x.code)}
+              />
+            ))}
+          </FormGroup>
         </FormControl>
       </div>
       <div className="form-input text">

@@ -16,7 +16,7 @@ export interface EntryProps {
 }
 
 function Entry({ entry }: EntryProps): JSX.Element {
-  const [t] = useTranslation(["Entry", "Shared"]);
+  const [t] = useTranslation(["Entry", "Shared", "Emotions"]);
   const primaryMood = t(`Shared:primaryMood.${entry.primaryMood}`);
   return (
     <ListItem className="app-entry" divider>
@@ -34,6 +34,20 @@ function Entry({ entry }: EntryProps): JSX.Element {
               {primaryMood}
             </Typography>
             {" — "}
+            {entry.secondaryMoods.length > 0 && (
+              <>
+                <Typography
+                  sx={{ display: "inline" }}
+                  component="span"
+                  variant="body2"
+                  color="text.primary">
+                  {entry.secondaryMoods
+                    .map((x) => t(`Emotions:${entry.primaryMood}.${x}`))
+                    .join(", ")}
+                </Typography>
+                {" — "}
+              </>
+            )}
             {entry.text}
           </>
         }

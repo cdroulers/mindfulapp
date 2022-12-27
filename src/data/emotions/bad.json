@@ -1,0 +1,30 @@
+[
+  {
+    "code": "depressed",
+    "name": {
+      "en": "Depressed",
+      "fr": "Dépressif.ve"
+    }
+  },
+  {
+    "code": "stupid",
+    "name": {
+      "en": "Stupid",
+      "fr": "Stupide"
+    }
+  },
+  {
+    "code": "hateful",
+    "name": {
+      "en": "Hateful",
+      "fr": "Détestable"
+    }
+  },
+  {
+    "code": "confused",
+    "name": {
+      "en": "Confused",
+      "fr": "Confus.e"
+    }
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "code": "apathetic",
+    "name": {
+      "en": "Apathetic",
+      "fr": "Apathique"
+    }
+  },
+  {
+    "code": "bored",
+    "name": {
+      "en": "Bored",
+      "fr": "Ennuyé.e"
+    }
+  },
+  {
+    "code": "tired",
+    "name": {
+      "en": "Tired",
+      "fr": "Fatigué.e"
+    }
+  },
+  {
+    "code": "sleepy",
+    "name": {
+      "en": "Sleepy",
+      "fr": "Endormi.e"
+    }
+  }
+]

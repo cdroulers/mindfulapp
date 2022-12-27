@@ -2,6 +2,9 @@
   "primaryMood": {
     "label": "Tell us about how you feel right now"
   },
+  "secondaryMoods": {
+    "label": "Do any of the following describe your mood?"
+  },
   "text": {
     "label": "Add a few words to describe why you feel like that"
   }

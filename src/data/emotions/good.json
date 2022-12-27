@@ -1,0 +1,30 @@
+[
+  {
+    "code": "excited",
+    "name": {
+      "en": "Excited",
+      "fr": "Excité.e"
+    }
+  },
+  {
+    "code": "energetic",
+    "name": {
+      "en": "Energetic",
+      "fr": "Énergisé.e"
+    }
+  },
+  {
+    "code": "joyful",
+    "name": {
+      "en": "Joyful",
+      "fr": "Joyeux.se"
+    }
+  },
+  {
+    "code": "proud",
+    "name": {
+      "en": "Proud",
+      "fr": "Fièr.e"
+    }
+  }
+]

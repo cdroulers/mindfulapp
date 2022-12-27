@@ -18,7 +18,6 @@ const options: InitOptions = {
   interpolation: {
     escapeValue: false, // react already safes from xss
     format: (value, format, lng) => {
-      console.log("piss", { value, format, lng });
       if (value instanceof Date) {
         const options: Intl.DateTimeFormatOptions = {
           dateStyle: "short",

@@ -2,6 +2,9 @@
   "primaryMood": {
     "label": "Dites-nous comment vous vous sentez en ce moment"
   },
+  "secondaryMoods": {
+    "label": "Est-ce qu'un de ces mots représente mieux votre état d'esprit ?"
+  },
   "text": {
     "label": "Écrivez quelques mots pour mieux décrire votre sentiment présent"
   }
