@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Header from "./components/Header";
 
 import "./App.css";
+import ServiceWorkerNotifications from "./components/ServiceWorkerNotifications";
 
 function App() {
   const theme = createTheme({
@@ -25,6 +26,7 @@ function App() {
       <div className="app">
         <Header />
         <Home></Home>
+        <ServiceWorkerNotifications />
       </div>
     </ThemeProvider>
   );
