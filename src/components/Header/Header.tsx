@@ -11,6 +11,7 @@ import logo from "../../logo.png";
 
 import "./Header.styles.scss";
 import i18n from "../../initializers/i18next";
+import Link from "@mui/material/Link";
 
 export interface HeaderProps {}
 
@@ -53,6 +54,9 @@ function Header(props: HeaderProps) {
           onClose={handleClose}>
           {i18n.language !== "fr" && <MenuItem onClick={() => changeLang("fr")}>Français</MenuItem>}
           {i18n.language !== "en" && <MenuItem onClick={() => changeLang("en")}>English</MenuItem>}
+          <MenuItem>
+            <Link href="https://github.com/cdroulers/mindfulapp">Source</Link>
+          </MenuItem>
         </Menu>
         <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
           <img src={logo} alt="Mindful logo" /> {t("title")}

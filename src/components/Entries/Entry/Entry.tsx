@@ -48,7 +48,7 @@ function Entry({ entry }: EntryProps): JSX.Element {
                 {" — "}
               </>
             )}
-            {entry.text}
+            <span>{entry.text}</span>
           </>
         }
         secondary={

@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next";
+import List from "@mui/material/List";
+
 import { EntryDto } from "../../data/entries/EntryDto";
 import groupBy from "../../shared/groupBy";
 import Entry from "./Entry";
-import List from "@mui/material/List";
 
 import "./Entries.styles.scss";
 
@@ -10,7 +12,8 @@ export interface EntriesProps {
 }
 
 function Entries({ entries }: EntriesProps): JSX.Element {
-  const groupedByDate = groupBy(entries, (e) => e.timestamp.toISOString().substring(0, 10));
+  const [t] = useTranslation("Entries");
+  const groupedByDate = groupBy(entries, (e) => t("timestamp", { date: e.timestamp }));
   return (
     <ul className="app-entries">
       {Array.from(groupedByDate.keys()).map((x) => (
