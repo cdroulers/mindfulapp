@@ -3,15 +3,16 @@ import { useTranslation } from "react-i18next";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "../../logo.png";
 
 import "./Header.styles.scss";
 import i18n from "../../initializers/i18next";
-import Link from "@mui/material/Link";
+import logo from "../../logo.png";
+import version from "../../version.json";
 
 export interface HeaderProps {}
 
@@ -57,6 +58,7 @@ function Header(props: HeaderProps) {
           <MenuItem>
             <Link href="https://github.com/cdroulers/mindfulapp">Source</Link>
           </MenuItem>
+          <MenuItem disabled>v{version.name}</MenuItem>
         </Menu>
         <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
           <img src={logo} alt="Mindful logo" /> {t("title")}
