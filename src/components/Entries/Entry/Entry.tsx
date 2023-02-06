@@ -1,6 +1,5 @@
 import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -47,7 +46,7 @@ function Entry({ entry }: EntryProps): JSX.Element {
               {" — "}
             </>
           )}
-          <span>{entry.text}</span>
+          <span style={{ whiteSpace: "pre" }}>{entry.text}</span>
           <div className="timestamp">
             <Typography
               sx={{ display: "inline" }}

@@ -22,10 +22,23 @@ export interface MoodModalProps {
   onClose?: () => void;
 }
 
+function getDefaultTimestamp() {
+  const d = new Date();
+  d.setHours(12);
+  d.setMinutes(0);
+  d.setSeconds(0);
+  d.setMilliseconds(0);
+  return d;
+}
+
 const defaultEntry: EntryCreationData = {
   primaryMood: "neutral",
   secondaryMoods: [],
   text: "",
+  behavioralActivation: {
+    action: "",
+    timestamp: getDefaultTimestamp(),
+  },
 };
 
 function MoodModal({ addEntry, onClose, visible }: MoodModalProps): JSX.Element {
@@ -74,21 +87,16 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
       others.secondaryMoods = [];
     }
 
-    if (name === "behavioralActivation.action") {
-      const timestamp = new Date();
-      timestamp.setDate(timestamp.getDate() + 1);
-      let activation = undefined;
-      if (value) {
-        activation = {
-          action: value as string,
-          timestamp,
-        };
+    if (name.startsWith("behavioralActivation")) {
+      const behavioralActivation = entry.behavioralActivation!;
+      if (name.endsWith(".action")) {
+        behavioralActivation.action = value as string;
+      } else if (name.endsWith(".timestamp")) {
+        value = value as string;
+        behavioralActivation.timestamp.setHours(parseInt(value.substring(0, 2)));
+        behavioralActivation.timestamp.setMinutes(parseInt(value.substring(3, 5)));
       }
-      setEntry({
-        ...entry,
-        ...others,
-        behavioralActivation: activation,
-      });
+      setEntry({ ...entry, behavioralActivation });
     } else {
       setEntry({ ...entry, ...others, [name]: value });
     }
@@ -161,13 +169,22 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
       <h3>{t("Shared:behavioralActivation")}</h3>
       <div className="form-input text">
         <FormControl>
-          <p id="text-label">{t("MoodModal:behavioralActivation.action.label")}</p>
+          <p id="action-label">{t("MoodModal:behavioralActivation.action.label")}</p>
           <TextField
-            aria-labelledby="text-label"
-            multiline
-            maxRows={5}
+            aria-labelledby="action-label"
             name="behavioralActivation.action"
             value={entry.behavioralActivation?.action}
+          />
+        </FormControl>
+      </div>
+      <div className="form-input text">
+        <FormControl>
+          <p id="action-timestamp-label">{t("MoodModal:behavioralActivation.timestamp.label")}</p>
+          <TextField
+            aria-labelledby="action-timestamp-label"
+            type="time"
+            name="behavioralActivation.timestamp"
+            value={entry.behavioralActivation?.timestamp.toTimeString().substring(0, 5)}
           />
         </FormControl>
       </div>
