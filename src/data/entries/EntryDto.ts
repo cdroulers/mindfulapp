@@ -6,6 +6,10 @@ export interface EntryDto {
   primaryMood: PrimaryMood;
   secondaryMoods: string[];
   text: string;
+  behavioralActivation?: {
+    action: string;
+    timestamp: Date;
+  };
 }
 
 export type EntryCreationData = Omit<EntryDto, "_id" | "timestamp">;

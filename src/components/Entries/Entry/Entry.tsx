@@ -1,6 +1,5 @@
 import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -23,40 +22,59 @@ function Entry({ entry }: EntryProps): JSX.Element {
       <ListItemAvatar>
         <Avatar>{getAvatar(entry.primaryMood)}</Avatar>
       </ListItemAvatar>
-      <ListItemText
-        primary={
-          <>
+      <section>
+        <div className="mood">
+          <Typography
+            sx={{ display: "inline" }}
+            component="span"
+            variant="body2"
+            color="text.primary">
+            {primaryMood}
+          </Typography>
+          {" — "}
+          {entry.secondaryMoods.length > 0 && (
+            <>
+              <Typography
+                sx={{ display: "inline" }}
+                component="span"
+                variant="body2"
+                color="text.primary">
+                {entry.secondaryMoods
+                  .map((x) => t(`Emotions:${entry.primaryMood}.${x}`))
+                  .join(", ")}
+              </Typography>
+              {" — "}
+            </>
+          )}
+          <span style={{ whiteSpace: "pre" }}>{entry.text}</span>
+          <div className="timestamp">
+            <Typography
+              sx={{ display: "inline" }}
+              component="time"
+              variant="body1"
+              color="text.secondary"
+              fontSize={"0.8em"}
+              dateTime={entry.timestamp.toISOString()}>
+              {t("timestamp", { date: entry.timestamp })}
+            </Typography>
+          </div>
+        </div>
+        {entry.behavioralActivation && (
+          <div className="behavioral-activation">
+            <h4>
+              {t("behavioralActivation.action", { date: entry.behavioralActivation.timestamp })}
+            </h4>
             <Typography
               sx={{ display: "inline" }}
               component="span"
-              variant="body2"
-              color="text.primary">
-              {primaryMood}
+              variant="body1"
+              color="text.secondary"
+              fontSize={"0.9em"}>
+              {entry.behavioralActivation.action}
             </Typography>
-            {" — "}
-            {entry.secondaryMoods.length > 0 && (
-              <>
-                <Typography
-                  sx={{ display: "inline" }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary">
-                  {entry.secondaryMoods
-                    .map((x) => t(`Emotions:${entry.primaryMood}.${x}`))
-                    .join(", ")}
-                </Typography>
-                {" — "}
-              </>
-            )}
-            <span>{entry.text}</span>
-          </>
-        }
-        secondary={
-          <time dateTime={entry.timestamp.toISOString()}>
-            {t("timestamp", { date: entry.timestamp })}
-          </time>
-        }
-      />
+          </div>
+        )}
+      </section>
     </ListItem>
   );
 }
