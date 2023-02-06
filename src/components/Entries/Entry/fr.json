@@ -1,3 +1,6 @@
 {
-  "timestamp": "Entré le {{ date, date-time }}"
+  "timestamp": "Entré le {{ date, date-time }}",
+  "behavioralActivation": {
+    "action": "Petite chose à faire demain à {{ date, time }}"
+  }
 }

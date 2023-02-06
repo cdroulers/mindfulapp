@@ -55,12 +55,12 @@ export default MoodModal;
 
 // Small optimization to avoid re-renders.
 function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
-  const [t] = useTranslation(["MoodModal", "Emotions"]);
+  const [t] = useTranslation(["MoodModal", "Emotions", "Shared"]);
   const [entry, setEntry] = useState<EntryCreationData>(defaultEntry);
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.target as unknown as HTMLInputElement;
-    const name = target.name;
+    let name = target.name;
     let value: string | string[] = target.value;
     if (name === "secondaryMoods") {
       if (target.checked) {
@@ -73,7 +73,25 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
     if (name === "primaryMood") {
       others.secondaryMoods = [];
     }
-    setEntry({ ...entry, ...others, [name]: value });
+
+    if (name === "behavioralActivation.action") {
+      const timestamp = new Date();
+      timestamp.setDate(timestamp.getDate() + 1);
+      let activation = undefined;
+      if (value) {
+        activation = {
+          action: value as string,
+          timestamp,
+        };
+      }
+      setEntry({
+        ...entry,
+        ...others,
+        behavioralActivation: activation,
+      });
+    } else {
+      setEntry({ ...entry, ...others, [name]: value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -137,6 +155,19 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
             maxRows={5}
             name="text"
             value={entry.text}
+          />
+        </FormControl>
+      </div>
+      <h3>{t("Shared:behavioralActivation")}</h3>
+      <div className="form-input text">
+        <FormControl>
+          <p id="text-label">{t("MoodModal:behavioralActivation.action.label")}</p>
+          <TextField
+            aria-labelledby="text-label"
+            multiline
+            maxRows={5}
+            name="behavioralActivation.action"
+            value={entry.behavioralActivation?.action}
           />
         </FormControl>
       </div>

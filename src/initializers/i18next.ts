@@ -20,7 +20,7 @@ const options: InitOptions = {
     format: (value, format, lng) => {
       if (value instanceof Date) {
         const options: Intl.DateTimeFormatOptions = {
-          dateStyle: "short",
+          dateStyle: format === "time" ? undefined : "short",
           timeStyle: format === "date" ? undefined : "short",
         };
         return new Intl.DateTimeFormat(lng + "-CA", options).format(value);

@@ -7,5 +7,9 @@
   },
   "text": {
     "label": "Add a few words to describe why you feel like that"
+  },
+  "behavioralActivation": {
+    "action": { "label": "Write down a small, enjoyable thing you can do tomorrow." },
+    "timestamp": { "label": "When will you do it?" }
   }
 }
