@@ -7,5 +7,9 @@ export function getDefaultEntry(): EntryDto {
     primaryMood: "good",
     secondaryMoods: ["oh my"],
     text: "dear boy",
+    behavioralActivation: {
+      action: "Talk a walk",
+      timestamp: new Date("2022-12-26T17:00:00Z"),
+    },
   };
 }

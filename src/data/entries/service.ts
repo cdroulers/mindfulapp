@@ -1,8 +1,12 @@
 import db from "../db";
 import { EntryDto, EntryCreationData } from "./EntryDto";
 
-type PouchEntryDto = Omit<EntryDto, "timestamp"> & {
+type PouchEntryDto = Omit<EntryDto, "timestamp" | "behavioralActivation"> & {
   timestamp: string;
+  behavioralActivation?: {
+    action: string;
+    timestamp: string;
+  };
 };
 
 export async function getEntries(): Promise<EntryDto[]> {
@@ -22,15 +26,28 @@ function pouchEntryToDto(entry: PouchEntryDto): EntryDto {
   return {
     ...entry,
     timestamp: new Date(entry.timestamp),
+    behavioralActivation: entry.behavioralActivation
+      ? {
+          action: entry.behavioralActivation.action,
+          timestamp: new Date(entry.behavioralActivation.timestamp),
+        }
+      : undefined,
   };
 }
 
 export async function addEntry(entry: EntryCreationData): Promise<EntryDto> {
   const timestamp = new Date().toISOString();
+
   const doc: PouchEntryDto = {
     _id: "entry:" + timestamp,
     timestamp,
     ...entry,
+    behavioralActivation: entry.behavioralActivation
+      ? {
+          action: entry.behavioralActivation.action,
+          timestamp: entry.behavioralActivation.timestamp.toISOString(),
+        }
+      : undefined,
   };
 
   await db.put(doc);

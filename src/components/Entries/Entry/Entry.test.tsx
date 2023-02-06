@@ -11,5 +11,7 @@ describe("Entries/Entry", () => {
     expect(screen.getByText(defaultEntry.text)).toBeInTheDocument();
     expect(screen.getByText("Good")).toBeInTheDocument();
     expect(screen.getByText("good." + defaultEntry.secondaryMoods[0])).toBeInTheDocument();
+
+    expect(screen.getByText(defaultEntry.behavioralActivation!.action)).toBeInTheDocument();
   });
 });
