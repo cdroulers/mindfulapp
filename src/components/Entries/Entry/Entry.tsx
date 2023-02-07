@@ -46,7 +46,7 @@ function Entry({ entry }: EntryProps): JSX.Element {
               {" — "}
             </>
           )}
-          <span style={{ whiteSpace: "pre" }}>{entry.text}</span>
+          <span style={{ whiteSpace: "pre-wrap" }}>{entry.text}</span>
           <div className="timestamp">
             <Typography
               sx={{ display: "inline" }}
