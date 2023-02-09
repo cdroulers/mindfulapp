@@ -1,6 +1,10 @@
 {
   "timestamp": "Logged on {{ date, date-time }}",
   "behavioralActivation": {
-    "action": "Small thing to do tomorrow at {{ date, time }}"
+    "action": "Small thing to do tomorrow at {{ date, time }}",
+    "done": {
+      "iDidIt": "✅ I did it!",
+      "done": "Done"
+    }
   }
 }

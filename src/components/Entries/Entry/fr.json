@@ -1,6 +1,10 @@
 {
   "timestamp": "Entré le {{ date, date-time }}",
   "behavioralActivation": {
-    "action": "Petite chose à faire demain à {{ date, time }}"
+    "action": "Petite chose à faire demain à {{ date, time }}",
+    "done": {
+      "iDidIt": "✅ Je l'ai fait !",
+      "done": "Fait"
+    }
   }
 }

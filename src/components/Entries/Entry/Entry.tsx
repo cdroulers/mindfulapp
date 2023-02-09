@@ -9,12 +9,14 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import "./Entry.styles.scss";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
+import Button from "@mui/material/Button";
 
 export interface EntryProps {
   entry: EntryDto;
+  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
 }
 
-function Entry({ entry }: EntryProps): JSX.Element {
+function Entry({ entry, markBehavioralActivationAsDone }: EntryProps): JSX.Element {
   const [t] = useTranslation(["Entry", "Shared", "Emotions"]);
   const primaryMood = t(`Shared:primaryMood.${entry.primaryMood}`);
   return (
@@ -66,12 +68,30 @@ function Entry({ entry }: EntryProps): JSX.Element {
             </h4>
             <Typography
               sx={{ display: "inline" }}
-              component="span"
+              component="div"
               variant="body1"
               color="text.secondary"
               fontSize={"0.9em"}>
               {entry.behavioralActivation.action}
             </Typography>
+            <span style={{ marginLeft: "1rem", display: "inline-block" }}>
+              {entry.behavioralActivation.done ? (
+                <Button
+                  size="small"
+                  onClick={() => markBehavioralActivationAsDone(entry._id)}
+                  variant="outlined"
+                  disabled>
+                  {t("behavioralActivation.done.done")}
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  onClick={() => markBehavioralActivationAsDone(entry._id)}
+                  variant="outlined">
+                  {t("behavioralActivation.done.iDidIt")}
+                </Button>
+              )}
+            </span>
           </div>
         )}
       </section>

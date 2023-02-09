@@ -9,6 +9,7 @@ export interface EntryDto {
   behavioralActivation?: {
     action: string;
     timestamp: Date;
+    done?: boolean;
   };
 }
 

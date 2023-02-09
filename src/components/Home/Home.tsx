@@ -9,10 +9,11 @@ import { useTranslation } from "react-i18next";
 
 export interface HomeProps {
   entries: EntryDto[];
-  addEntry: (entry: EntryCreationData) => Promise<void>;
+  addEntry: (entry: EntryCreationData, markPreviousAsDone: boolean) => Promise<void>;
+  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
 }
 
-function Home({ addEntry, entries }: HomeProps): JSX.Element {
+function Home({ addEntry, entries, markBehavioralActivationAsDone }: HomeProps): JSX.Element {
   const [t] = useTranslation("Home");
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
 
@@ -28,8 +29,13 @@ function Home({ addEntry, entries }: HomeProps): JSX.Element {
         }}>
         {t("addEntry")}
       </Button>
-      <Entries entries={entries} />
-      <MoodModal addEntry={addEntry} visible={addModalVisible} onClose={handleClose} />
+      <Entries entries={entries} markBehavioralActivationAsDone={markBehavioralActivationAsDone} />
+      <MoodModal
+        addEntry={addEntry}
+        visible={addModalVisible}
+        onClose={handleClose}
+        previousEntry={entries[0]}
+      />
     </section>
   );
 }

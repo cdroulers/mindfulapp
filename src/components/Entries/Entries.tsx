@@ -9,9 +9,10 @@ import "./Entries.styles.scss";
 
 export interface EntriesProps {
   entries: EntryDto[];
+  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
 }
 
-function Entries({ entries }: EntriesProps): JSX.Element {
+function Entries({ entries, markBehavioralActivationAsDone }: EntriesProps): JSX.Element {
   const [t] = useTranslation("Entries");
   const groupedByDate = groupBy(entries, (e) => t("timestamp", { date: e.timestamp }));
   return (
@@ -21,7 +22,11 @@ function Entries({ entries }: EntriesProps): JSX.Element {
           <h3>{x}</h3>
           <List>
             {groupedByDate.get(x)!.map((x) => (
-              <Entry key={x._id} entry={x} />
+              <Entry
+                key={x._id}
+                entry={x}
+                markBehavioralActivationAsDone={markBehavioralActivationAsDone}
+              />
             ))}
           </List>
         </li>

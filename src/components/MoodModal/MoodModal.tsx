@@ -1,24 +1,27 @@
 import React, { useState } from "react";
-import { EntryCreationData } from "../../data/entries/EntryDto";
-import Modal from "../shared/Modal";
-
-import "./MoodModal.styles.scss";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useTranslation } from "react-i18next";
-import { getEmotions } from "../../data/emotions";
 import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
+
+import { EntryCreationData, EntryDto } from "../../data/entries/EntryDto";
+import Modal from "../shared/Modal";
+import { getEmotions } from "../../data/emotions";
+
+import "./MoodModal.styles.scss";
 
 const emotions = getEmotions();
 
 export interface MoodModalProps {
   visible?: boolean;
-  addEntry: (entry: EntryCreationData) => Promise<void>;
+  addEntry: (entry: EntryCreationData, markPreviousAsDone: boolean) => Promise<void>;
+  previousEntry?: EntryDto;
   onClose?: () => void;
 }
 
@@ -41,7 +44,7 @@ const defaultEntry: EntryCreationData = {
   },
 };
 
-function MoodModal({ addEntry, onClose, visible }: MoodModalProps): JSX.Element {
+function MoodModal({ addEntry, onClose, visible, previousEntry }: MoodModalProps): JSX.Element {
   const [t] = useTranslation(["MoodModal", "Home", "Shared"]);
   return (
     <Modal
@@ -59,7 +62,7 @@ function MoodModal({ addEntry, onClose, visible }: MoodModalProps): JSX.Element 
           </Button>
         </>
       }>
-      <MoodModalForm addEntry={addEntry} onClose={onClose} />
+      <MoodModalForm addEntry={addEntry} onClose={onClose} previousEntry={previousEntry} />
     </Modal>
   );
 }
@@ -67,9 +70,10 @@ function MoodModal({ addEntry, onClose, visible }: MoodModalProps): JSX.Element 
 export default MoodModal;
 
 // Small optimization to avoid re-renders.
-function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
+function MoodModalForm({ addEntry, onClose, previousEntry }: MoodModalProps): JSX.Element {
   const [t] = useTranslation(["MoodModal", "Emotions", "Shared"]);
   const [entry, setEntry] = useState<EntryCreationData>(defaultEntry);
+  const [previousDone, setPreviousDone] = useState<boolean>(false);
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.target as unknown as HTMLInputElement;
@@ -95,6 +99,8 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
         value = value as string;
         behavioralActivation.timestamp.setHours(parseInt(value.substring(0, 2)));
         behavioralActivation.timestamp.setMinutes(parseInt(value.substring(3, 5)));
+      } else if (name.endsWith(".done")) {
+        setPreviousDone(target.checked);
       }
       setEntry({ ...entry, behavioralActivation });
     } else {
@@ -104,7 +110,11 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addEntry(entry).then(() => {
+    if (!entry.behavioralActivation?.action) {
+      delete entry.behavioralActivation;
+    }
+
+    addEntry(entry, previousDone).then(() => {
       setEntry(defaultEntry);
       onClose?.call(null);
     });
@@ -166,7 +176,7 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
           />
         </FormControl>
       </div>
-      <h3>{t("Shared:behavioralActivation")}</h3>
+      <h2>{t("Shared:behavioralActivation")}</h2>
       <div className="form-input text">
         <FormControl>
           <p id="action-label">{t("MoodModal:behavioralActivation.action.label")}</p>
@@ -188,6 +198,34 @@ function MoodModalForm({ addEntry, onClose }: MoodModalProps): JSX.Element {
           />
         </FormControl>
       </div>
+      {previousEntry &&
+        previousEntry.behavioralActivation &&
+        !previousEntry.behavioralActivation.done && (
+          <div>
+            <h3>Previous entry</h3>
+            <div className="form-input">
+              <FormControl>
+                <p id="action-previous-done-label">
+                  {t("MoodModal:behavioralActivation.yesterdayAction", {
+                    date: previousEntry.behavioralActivation.timestamp,
+                  })}
+                </p>
+                <Typography
+                  sx={{ display: "inline" }}
+                  component="div"
+                  variant="body1"
+                  color="text.secondary"
+                  fontSize={"0.9em"}>
+                  {previousEntry.behavioralActivation.action}
+                </Typography>
+                <FormControlLabel
+                  control={<Checkbox name="behavioralActivation.done" value="done" />}
+                  label={t("MoodModal:behavioralActivation.didYouDoIt")}
+                />
+              </FormControl>
+            </div>
+          </div>
+        )}
     </form>
   );
 }

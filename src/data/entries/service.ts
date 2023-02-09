@@ -3,8 +3,7 @@ import { EntryDto, EntryCreationData } from "./EntryDto";
 
 type PouchEntryDto = Omit<EntryDto, "timestamp" | "behavioralActivation"> & {
   timestamp: string;
-  behavioralActivation?: {
-    action: string;
+  behavioralActivation?: Omit<NonNullable<EntryDto["behavioralActivation"]>, "timestamp"> & {
     timestamp: string;
   };
 };
@@ -28,15 +27,37 @@ function pouchEntryToDto(entry: PouchEntryDto): EntryDto {
     timestamp: new Date(entry.timestamp),
     behavioralActivation: entry.behavioralActivation
       ? {
-          action: entry.behavioralActivation.action,
+          ...entry.behavioralActivation,
           timestamp: new Date(entry.behavioralActivation.timestamp),
         }
       : undefined,
   };
 }
 
-export async function addEntry(entry: EntryCreationData): Promise<EntryDto> {
+export async function addEntry(
+  entry: EntryCreationData,
+  markPreviousAsDone: boolean
+): Promise<{ added: EntryDto; updated?: EntryDto }> {
   const timestamp = new Date().toISOString();
+
+  let updated: EntryDto | undefined;
+  if (markPreviousAsDone) {
+    const previousDoc = (
+      await db.allDocs<PouchEntryDto>({
+        include_docs: true,
+        descending: true,
+        startkey: "entry\ufff0",
+        endkey: "entry",
+        limit: 1,
+      })
+    ).rows[0];
+
+    if (previousDoc?.doc?.behavioralActivation) {
+      previousDoc.doc.behavioralActivation.done = true;
+      await db.put(previousDoc.doc);
+      updated = pouchEntryToDto(previousDoc.doc);
+    }
+  }
 
   const doc: PouchEntryDto = {
     _id: "entry:" + timestamp,
@@ -46,11 +67,25 @@ export async function addEntry(entry: EntryCreationData): Promise<EntryDto> {
       ? {
           action: entry.behavioralActivation.action,
           timestamp: entry.behavioralActivation.timestamp.toISOString(),
+          done: false,
         }
       : undefined,
   };
 
   await db.put(doc);
   const found = await db.get<PouchEntryDto>(doc._id);
-  return pouchEntryToDto(found);
+  const added = pouchEntryToDto(found);
+  return { added, updated };
+}
+
+export async function markBehavioralActivationAsDone(id: string): Promise<EntryDto | undefined> {
+  const entry = await db.get<PouchEntryDto>(id);
+
+  if (entry?.behavioralActivation) {
+    entry.behavioralActivation.done = true;
+    await db.put(entry);
+    return pouchEntryToDto(entry);
+  }
+
+  return undefined;
 }

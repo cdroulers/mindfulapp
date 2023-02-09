@@ -10,6 +10,8 @@
   },
   "behavioralActivation": {
     "action": { "label": "Écrivez une petite action plaisante à faire demain." },
-    "timestamp": { "label": "Quand la ferez-vous ?" }
+    "timestamp": { "label": "Quand la ferez-vous ?" },
+    "yesterdayAction": "La dernière fois, vous avez dit que vous feriez une petite action plaisante le {{ date, date-time }}",
+    "didYouDoIt": "L'avez-vous fait ?"
   }
 }

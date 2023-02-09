@@ -12,7 +12,7 @@ const entry2: EntryDto = {
 
 describe("Entries", () => {
   test("groups by date", () => {
-    render(<Entries entries={[entry1, entry2]} />);
+    render(<Entries entries={[entry1, entry2]} markBehavioralActivationAsDone={jest.fn()} />);
     expect(screen.getByText("2022-12-24")).toBeInTheDocument();
     expect(screen.getByText("2022-12-25")).toBeInTheDocument();
   });
