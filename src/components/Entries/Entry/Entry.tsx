@@ -1,20 +1,20 @@
-import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
+import { useTranslation } from "react-i18next";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 import "./Entry.styles.scss";
-import Typography from "@mui/material/Typography";
-import { useTranslation } from "react-i18next";
-import Button from "@mui/material/Button";
+import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
+import { EntryDependencies } from "./dependencies";
 
-export interface EntryProps {
+export type EntryProps = {
   entry: EntryDto;
-  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
-}
+} & EntryDependencies;
 
 function Entry({ entry, markBehavioralActivationAsDone }: EntryProps): JSX.Element {
   const [t] = useTranslation(["Entry", "Shared", "Emotions"]);

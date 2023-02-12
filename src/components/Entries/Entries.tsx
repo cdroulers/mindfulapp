@@ -4,15 +4,15 @@ import List from "@mui/material/List";
 import { EntryDto } from "../../data/entries/EntryDto";
 import groupBy from "../../shared/groupBy";
 import Entry from "./Entry";
+import { EntryDependencies } from "./Entry/dependencies";
 
 import "./Entries.styles.scss";
 
-export interface EntriesProps {
+export type EntriesProps = {
   entries: EntryDto[];
-  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
-}
+} & EntryDependencies;
 
-function Entries({ entries, markBehavioralActivationAsDone }: EntriesProps): JSX.Element {
+function Entries({ entries, ...props }: EntriesProps): JSX.Element {
   const [t] = useTranslation("Entries");
   const groupedByDate = groupBy(entries, (e) => t("timestamp", { date: e.timestamp }));
   return (
@@ -22,11 +22,7 @@ function Entries({ entries, markBehavioralActivationAsDone }: EntriesProps): JSX
           <h3>{x}</h3>
           <List>
             {groupedByDate.get(x)!.map((x) => (
-              <Entry
-                key={x._id}
-                entry={x}
-                markBehavioralActivationAsDone={markBehavioralActivationAsDone}
-              />
+              <Entry key={x._id} entry={x} {...props} />
             ))}
           </List>
         </li>

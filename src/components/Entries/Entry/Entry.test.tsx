@@ -7,7 +7,13 @@ const defaultEntry = getDefaultEntry();
 
 describe("Entries/Entry", () => {
   test("renders with content", () => {
-    render(<Entry entry={defaultEntry} markBehavioralActivationAsDone={jest.fn()} />);
+    render(
+      <Entry
+        entry={defaultEntry}
+        updateEntry={jest.fn()}
+        markBehavioralActivationAsDone={jest.fn()}
+      />
+    );
     expect(screen.getByText(defaultEntry.text)).toBeInTheDocument();
     expect(screen.getByText("Good")).toBeInTheDocument();
     expect(screen.getByText("good." + defaultEntry.secondaryMoods[0])).toBeInTheDocument();

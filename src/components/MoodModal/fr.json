@@ -9,6 +9,7 @@
     "label": "Écrivez quelques mots pour mieux décrire votre sentiment présent"
   },
   "behavioralActivation": {
+    "previousEntry": "Entrée précédente",
     "action": { "label": "Écrivez une petite action plaisante à faire demain." },
     "timestamp": { "label": "Quand la ferez-vous ?" },
     "yesterdayAction": "La dernière fois, vous avez dit que vous feriez une petite action plaisante le {{ date, date-time }}",

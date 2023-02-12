@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import { EntryDto, EntryCreationData } from "../../data/entries/EntryDto";
-import { getEntries, addEntry, markBehavioralActivationAsDone } from "../../data/entries/service";
+import { EntryDto, EntryCreationData, EntryUpdateData } from "../../data/entries/EntryDto";
+import {
+  getEntries,
+  addEntry,
+  markBehavioralActivationAsDone,
+  updateEntry,
+} from "../../data/entries/service";
 import Home, { HomeProps } from "./Home";
 
 interface HomeContainerProps
-  extends Omit<HomeProps, "entries" | "addEntry" | "markBehavioralActivationAsDone"> {}
+  extends Omit<
+    HomeProps,
+    "entries" | "addEntry" | "updateEntry" | "markBehavioralActivationAsDone"
+  > {}
 
 function HomeContainer({ ...props }: HomeContainerProps) {
   const [entries, setEntries] = useState<EntryDto[] | undefined>();
@@ -15,10 +23,15 @@ function HomeContainer({ ...props }: HomeContainerProps) {
 
   const handleAddEntry = async (entryData: EntryCreationData, markPreviousAsDone: boolean) => {
     const { added, updated } = await addEntry(entryData, markPreviousAsDone);
-    setEntries(updateEntry([added].concat(entries || []), updated));
+    setEntries(updateEntryState([added].concat(entries || []), updated));
   };
 
-  const updateEntry = (entries: EntryDto[], updated: EntryDto | undefined): EntryDto[] => {
+  const handleUpdateEntry = async (id: string, entryData: EntryUpdateData) => {
+    const updated = await updateEntry(id, entryData);
+    setEntries(updateEntryState(entries || [], updated));
+  };
+
+  const updateEntryState = (entries: EntryDto[], updated: EntryDto | undefined): EntryDto[] => {
     const idx = entries.findIndex((x) => x._id === updated?._id);
     if (idx >= 0 && updated && entries) {
       const newEntries = entries.concat();
@@ -31,7 +44,7 @@ function HomeContainer({ ...props }: HomeContainerProps) {
 
   const handleMarkEntryAsDone = async (entryId: string) => {
     const entry = await markBehavioralActivationAsDone(entryId);
-    setEntries(updateEntry(entries || [], entry));
+    setEntries(updateEntryState(entries || [], entry));
   };
 
   if (!entries) {
@@ -43,6 +56,7 @@ function HomeContainer({ ...props }: HomeContainerProps) {
       entries={entries}
       addEntry={handleAddEntry}
       markBehavioralActivationAsDone={handleMarkEntryAsDone}
+      updateEntry={handleUpdateEntry}
     />
   );
 }

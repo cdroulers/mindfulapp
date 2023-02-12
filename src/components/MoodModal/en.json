@@ -9,6 +9,7 @@
     "label": "Add a few words to describe why you feel like that"
   },
   "behavioralActivation": {
+    "previousEntry": "Previous Entry",
     "action": { "label": "Write down a small, enjoyable thing you can do tomorrow." },
     "timestamp": { "label": "When will you do it?" },
     "yesterdayAction": "Last time you said you would do this small thing on {{ date, date-time }}",
