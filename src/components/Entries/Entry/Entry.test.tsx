@@ -10,7 +10,7 @@ describe("Entries/Entry", () => {
     render(
       <Entry
         entry={defaultEntry}
-        updateEntry={jest.fn()}
+        onEditClick={jest.fn()}
         markBehavioralActivationAsDone={jest.fn()}
       />
     );

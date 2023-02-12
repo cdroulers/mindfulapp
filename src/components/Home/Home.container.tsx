@@ -55,8 +55,8 @@ function HomeContainer({ ...props }: HomeContainerProps) {
     <Home
       entries={entries}
       addEntry={handleAddEntry}
-      markBehavioralActivationAsDone={handleMarkEntryAsDone}
       updateEntry={handleUpdateEntry}
+      markBehavioralActivationAsDone={handleMarkEntryAsDone}
     />
   );
 }

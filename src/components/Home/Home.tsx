@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { EntryDto } from "../../data/entries/EntryDto";
 import Entries from "../Entries";
 import MoodModal from "../MoodModal";
-import { EntryDependencies } from "../Entries/Entry/dependencies";
+import { EntriesDependencies } from "../Entries/dependencies";
 import { AddEntryCallback } from "../MoodModal/dependencies";
 
 import "./Home.styles.scss";
@@ -13,7 +13,7 @@ import "./Home.styles.scss";
 export type HomeProps = {
   entries: EntryDto[];
   addEntry: AddEntryCallback;
-} & EntryDependencies;
+} & EntriesDependencies;
 
 function Home({ addEntry, entries, ...props }: HomeProps): JSX.Element {
   const [t] = useTranslation("Home");

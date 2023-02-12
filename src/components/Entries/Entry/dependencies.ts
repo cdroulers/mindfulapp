@@ -1,8 +1,8 @@
-import { UpdateEntryCallback } from "../../MoodModal/dependencies";
+import { EntryDto } from "../../../data/entries/EntryDto";
 
 export type MarkBehavioralActivationAsDoneCallback = (entryId: string) => Promise<void>;
 
 export type EntryDependencies = {
   markBehavioralActivationAsDone: MarkBehavioralActivationAsDoneCallback;
-  updateEntry: UpdateEntryCallback;
+  onEditClick: (entry: EntryDto) => void;
 };
