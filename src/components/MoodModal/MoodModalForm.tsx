@@ -150,7 +150,7 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
         <FormControl>
           <p id="text-label">{t("MoodModal:text.label")}</p>
           <TextField
-            aria-labelledby="text-label"
+            inputProps={{ "aria-labelledby": "text-label" }}
             multiline
             maxRows={5}
             name="text"
@@ -163,7 +163,7 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
         <FormControl>
           <p id="action-label">{t("MoodModal:behavioralActivation.action.label")}</p>
           <TextField
-            aria-labelledby="action-label"
+            inputProps={{ "aria-labelledby": "action-label" }}
             name="behavioralActivation.action"
             value={entry.behavioralActivation?.action}
           />
@@ -173,7 +173,7 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
         <FormControl>
           <p id="action-timestamp-label">{t("MoodModal:behavioralActivation.timestamp.label")}</p>
           <TextField
-            aria-labelledby="action-timestamp-label"
+            inputProps={{ "aria-labelledby": "action-timestamp-label", role: "textbox" }}
             type="time"
             name="behavioralActivation.timestamp"
             value={entry.behavioralActivation?.timestamp.toTimeString().substring(0, 5)}

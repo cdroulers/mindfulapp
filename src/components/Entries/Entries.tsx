@@ -8,6 +8,7 @@ import Entry from "./Entry";
 import { EntriesDependencies } from "./dependencies";
 
 import "./Entries.styles.scss";
+import MoodModal from "../MoodModal";
 
 export type EntriesProps = {
   entries: EntryDto[];
@@ -26,12 +27,24 @@ function Entries({ entries, ...props }: EntriesProps): JSX.Element {
             <h3>{x}</h3>
             <List>
               {groupedByDate.get(x)!.map((x) => (
-                <Entry key={x._id} entry={x} {...props} onEditClick={setEditing} />
+                <Entry key={x._id} {...props} entry={x} onEditClick={setEditing} />
               ))}
             </List>
           </li>
         ))}
       </ul>
+      <MoodModal
+        updating={
+          editing
+            ? {
+                entry: editing,
+                updateEntry: props.updateEntry,
+              }
+            : undefined
+        }
+        visible={Boolean(editing)}
+        onClose={() => setEditing(null)}
+      />
     </>
   );
 }
