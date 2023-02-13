@@ -40,7 +40,9 @@ const defaultEntry: EntryCreationData = {
 function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.Element {
   const [t] = useTranslation(["MoodModal", "Emotions", "Shared"]);
   const [entry, setEntry] = useState<EntryUpdateData>(updating?.entry || defaultEntry);
-  const [previousDone, setPreviousDone] = useState<boolean>(false);
+  const [previousDone, setPreviousDone] = useState<boolean>(
+    updating?.entry.behavioralActivation?.done || false
+  );
 
   const isUpdating = Boolean(updating);
 
@@ -181,6 +183,7 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
         </FormControl>
       </div>
       {previousEntry &&
+        !isUpdating &&
         previousEntry.behavioralActivation &&
         !previousEntry.behavioralActivation.done && (
           <div>
@@ -208,6 +211,16 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
             </div>
           </div>
         )}
+      {previousEntry && isUpdating && previousEntry.behavioralActivation && (
+        <div className="form-input text">
+          <FormControlLabel
+            control={
+              <Checkbox name="behavioralActivation.done" value="done" checked={previousDone} />
+            }
+            label={t("MoodModal:behavioralActivation.didYouDoIt")}
+          />
+        </div>
+      )}
     </form>
   );
 }

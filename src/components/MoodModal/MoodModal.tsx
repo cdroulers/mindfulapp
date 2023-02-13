@@ -10,10 +10,13 @@ import { MoodModalProps } from "./types";
 
 function MoodModal({ onClose, visible, ...props }: MoodModalProps): JSX.Element {
   const [t] = useTranslation(["MoodModal", "Home", "Shared"]);
+  const title = props.updating
+    ? t("MoodModal:updateEntryTitle", { date: props.updating.entry.timestamp })
+    : t("Home:addEntry");
   return (
     <Modal
       visible={visible}
-      title={t("Home:addEntry")}
+      title={title}
       onClose={onClose}
       className="app-mood-modal"
       actions={
