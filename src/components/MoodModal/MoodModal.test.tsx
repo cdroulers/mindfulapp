@@ -1,11 +1,43 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import MoodModal from "./MoodModal";
 import { getDefaultEntry } from "../../data/entries/__tests__/stubs";
 
 const defaultEntry = getDefaultEntry();
 
 describe("MoodModal", () => {
+  describe("Buttons", () => {
+    it("closes Modal on X", () => {
+      const onClose = jest.fn();
+      render(
+        <MoodModal
+          visible
+          onClose={onClose}
+          adding={{
+            addEntry: jest.fn(),
+          }}
+        />
+      );
+      fireEvent.click(screen.getByTestId("CloseIcon"));
+      expect(onClose).toHaveBeenCalled();
+    });
+
+    it("closes Modal on Cancel button", () => {
+      const onClose = jest.fn();
+      render(
+        <MoodModal
+          visible
+          onClose={onClose}
+          adding={{
+            addEntry: jest.fn(),
+          }}
+        />
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      expect(onClose).toHaveBeenCalled();
+    });
+  });
+
   describe("Adding entry", () => {
     test("renders with proper title", () => {
       render(
@@ -21,6 +53,7 @@ describe("MoodModal", () => {
       expect(screen.getByRole("heading", { name: "Add entry" })).toBeInTheDocument();
     });
   });
+
   describe("Updating entry", () => {
     test("renders with proper title", () => {
       render(
