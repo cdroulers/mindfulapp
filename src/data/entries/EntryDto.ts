@@ -13,4 +13,8 @@ export interface EntryDto {
   };
 }
 
-export type EntryCreationData = Omit<EntryDto, "_id" | "timestamp">;
+export type EntryUpdateData = Omit<EntryDto, "_id" | "timestamp">;
+
+export type EntryCreationData = Omit<EntryUpdateData, "behavioralActivation"> & {
+  behavioralActivation?: Omit<NonNullable<EntryDto["behavioralActivation"]>, "done">;
+};

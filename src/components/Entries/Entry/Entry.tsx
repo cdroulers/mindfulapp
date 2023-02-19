@@ -1,22 +1,22 @@
-import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
+import { useTranslation } from "react-i18next";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 import "./Entry.styles.scss";
-import Typography from "@mui/material/Typography";
-import { useTranslation } from "react-i18next";
-import Button from "@mui/material/Button";
+import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
+import { EntryDependencies } from "./dependencies";
 
-export interface EntryProps {
+export type EntryProps = {
   entry: EntryDto;
-  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
-}
+} & EntryDependencies;
 
-function Entry({ entry, markBehavioralActivationAsDone }: EntryProps): JSX.Element {
+function Entry({ entry, markBehavioralActivationAsDone, onEditClick }: EntryProps): JSX.Element {
   const [t] = useTranslation(["Entry", "Shared", "Emotions"]);
   const primaryMood = t(`Shared:primaryMood.${entry.primaryMood}`);
   return (
@@ -59,6 +59,9 @@ function Entry({ entry, markBehavioralActivationAsDone }: EntryProps): JSX.Eleme
               dateTime={entry.timestamp.toISOString()}>
               {t("timestamp", { date: entry.timestamp })}
             </Typography>
+            <Button size="small" onClick={() => onEditClick(entry)} variant="outlined">
+              {t("Shared:edit")}
+            </Button>
           </div>
         </div>
         {entry.behavioralActivation && (
@@ -76,11 +79,7 @@ function Entry({ entry, markBehavioralActivationAsDone }: EntryProps): JSX.Eleme
             </Typography>
             <span style={{ marginLeft: "1rem", display: "inline-block" }}>
               {entry.behavioralActivation.done ? (
-                <Button
-                  size="small"
-                  onClick={() => markBehavioralActivationAsDone(entry._id)}
-                  variant="outlined"
-                  disabled>
+                <Button size="small" variant="outlined" disabled>
                   {t("behavioralActivation.done.done")}
                 </Button>
               ) : (

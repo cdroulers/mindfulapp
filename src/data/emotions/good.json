@@ -26,5 +26,12 @@
       "en": "Proud",
       "fr": "Fièr.e"
     }
+  },
+  {
+    "code": "happy",
+    "name": {
+      "en": "Happy",
+      "fr": "Heureux.se"
+    }
   }
 ]

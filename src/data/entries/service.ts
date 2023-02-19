@@ -1,5 +1,5 @@
 import db from "../db";
-import { EntryDto, EntryCreationData } from "./EntryDto";
+import { EntryDto, EntryCreationData, EntryUpdateData } from "./EntryDto";
 
 type PouchEntryDto = Omit<EntryDto, "timestamp" | "behavioralActivation"> & {
   timestamp: string;
@@ -76,6 +76,22 @@ export async function addEntry(
   const found = await db.get<PouchEntryDto>(doc._id);
   const added = pouchEntryToDto(found);
   return { added, updated };
+}
+
+export async function updateEntry(id: string, update: EntryUpdateData): Promise<EntryDto> {
+  const entry = await db.get<PouchEntryDto>(id);
+
+  entry.primaryMood = update.primaryMood;
+  entry.secondaryMoods = update.secondaryMoods;
+  entry.text = update.text;
+  entry.behavioralActivation = update.behavioralActivation
+    ? {
+        ...update.behavioralActivation,
+        timestamp: update.behavioralActivation.timestamp.toISOString(),
+      }
+    : undefined;
+  await db.put(entry);
+  return pouchEntryToDto(entry);
 }
 
 export async function markBehavioralActivationAsDone(id: string): Promise<EntryDto | undefined> {

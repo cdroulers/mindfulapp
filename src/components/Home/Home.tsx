@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { EntryDto, EntryCreationData } from "../../data/entries/EntryDto";
-import Entries from "../Entries";
-import MoodModal from "../MoodModal";
+import { useTranslation } from "react-i18next";
 import Button from "@mui/material/Button";
 
+import { EntryDto } from "../../data/entries/EntryDto";
+import Entries from "../Entries";
+import MoodModal from "../MoodModal";
+import { EntriesDependencies } from "../Entries/dependencies";
+import { AddEntryCallback } from "../MoodModal/dependencies";
+
 import "./Home.styles.scss";
-import { useTranslation } from "react-i18next";
 
-export interface HomeProps {
+export type HomeProps = {
   entries: EntryDto[];
-  addEntry: (entry: EntryCreationData, markPreviousAsDone: boolean) => Promise<void>;
-  markBehavioralActivationAsDone: (entryId: string) => Promise<void>;
-}
+  addEntry: AddEntryCallback;
+} & EntriesDependencies;
 
-function Home({ addEntry, entries, markBehavioralActivationAsDone }: HomeProps): JSX.Element {
+function Home({ addEntry, entries, ...props }: HomeProps): JSX.Element {
   const [t] = useTranslation("Home");
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
 
@@ -29,12 +31,14 @@ function Home({ addEntry, entries, markBehavioralActivationAsDone }: HomeProps):
         }}>
         {t("addEntry")}
       </Button>
-      <Entries entries={entries} markBehavioralActivationAsDone={markBehavioralActivationAsDone} />
+      <Entries entries={entries} {...props} />
       <MoodModal
-        addEntry={addEntry}
+        adding={{
+          addEntry: addEntry,
+          previousEntry: entries[0],
+        }}
         visible={addModalVisible}
         onClose={handleClose}
-        previousEntry={entries[0]}
       />
     </section>
   );
