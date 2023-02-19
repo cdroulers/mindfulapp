@@ -9,10 +9,10 @@ import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 
-import { EntryCreationData, EntryUpdateData } from "../../data/entries/EntryDto";
-import { getEmotions } from "../../data/emotions";
+import { EntryCreationData, EntryUpdateData } from "../../../data/entries/EntryDto";
+import { getEmotions } from "../../../data/emotions";
 
-import "./MoodModal.styles.scss";
+import "../MoodModal.styles.scss";
 import { MoodModalFormProps } from "./types";
 
 const emotions = getEmotions();
@@ -26,7 +26,7 @@ function getDefaultTimestamp() {
   return d;
 }
 
-const defaultEntry: EntryCreationData = {
+const getDefaultEntry = (): EntryCreationData => ({
   primaryMood: "neutral",
   secondaryMoods: [],
   text: "",
@@ -34,12 +34,12 @@ const defaultEntry: EntryCreationData = {
     action: "",
     timestamp: getDefaultTimestamp(),
   },
-};
+});
 
 // Small optimization to avoid re-renders.
 function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.Element {
   const [t] = useTranslation(["MoodModal", "Emotions", "Shared"]);
-  const [entry, setEntry] = useState<EntryUpdateData>(updating?.entry || defaultEntry);
+  const [entry, setEntry] = useState<EntryUpdateData>(updating?.entry || getDefaultEntry());
   const [previousDone, setPreviousDone] = useState<boolean>(
     updating?.entry.behavioralActivation?.done || false
   );
@@ -93,12 +93,13 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
 
     if (adding) {
       adding.addEntry(entry, previousDone).then(() => {
-        setEntry(defaultEntry);
+        setEntry(getDefaultEntry());
+        setPreviousDone(false);
         onClose?.call(null);
       });
     } else if (updating) {
       updating.updateEntry(previousEntry!._id, entry).then(() => {
-        setEntry(defaultEntry);
+        setEntry(getDefaultEntry());
         onClose?.call(null);
       });
     }
@@ -116,15 +117,19 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
             value={entry.primaryMood}>
             <FormControlLabel
               value="good"
-              control={<Radio />}
+              control={<Radio checked={entry.primaryMood === "good"} />}
               label={t("Shared:primaryMood.good")}
             />
             <FormControlLabel
               value="neutral"
-              control={<Radio />}
+              control={<Radio checked={entry.primaryMood === "neutral"} />}
               label={t("Shared:primaryMood.neutral")}
             />
-            <FormControlLabel value="bad" control={<Radio />} label={t("Shared:primaryMood.bad")} />
+            <FormControlLabel
+              value="bad"
+              control={<Radio checked={entry.primaryMood === "bad"} />}
+              label={t("Shared:primaryMood.bad")}
+            />
           </RadioGroup>
         </FormControl>
       </div>
@@ -204,7 +209,13 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
                   {previousEntry.behavioralActivation.action}
                 </Typography>
                 <FormControlLabel
-                  control={<Checkbox name="behavioralActivation.done" value="done" />}
+                  control={
+                    <Checkbox
+                      name="behavioralActivation.done"
+                      value="done"
+                      checked={previousDone}
+                    />
+                  }
                   label={t("MoodModal:behavioralActivation.didYouDoIt")}
                 />
               </FormControl>

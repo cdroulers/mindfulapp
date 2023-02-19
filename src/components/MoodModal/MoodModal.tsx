@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Modal from "../shared/Modal";
 
 import "./MoodModal.styles.scss";
-import MoodModalForm from "./MoodModalForm";
+import MoodModalForm from "./Form/MoodModalForm";
 import { MoodModalProps } from "./types";
 
 function MoodModal({ onClose, visible, ...props }: MoodModalProps): JSX.Element {

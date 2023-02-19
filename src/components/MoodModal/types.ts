@@ -13,5 +13,3 @@ export interface MoodModalProps {
   };
   onClose?: () => void;
 }
-
-export type MoodModalFormProps = Omit<MoodModalProps, "visible">;

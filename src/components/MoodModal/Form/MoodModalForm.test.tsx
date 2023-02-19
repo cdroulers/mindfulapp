@@ -1,7 +1,8 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import MoodModalForm from "./MoodModalForm";
-import { getDefaultEntry } from "../../data/entries/__tests__/stubs";
+import { getDefaultEntry } from "../../../data/entries/__tests__/stubs";
+import { act } from "react-dom/test-utils";
 
 const defaultEntry = getDefaultEntry();
 
@@ -17,24 +18,7 @@ describe("MoodModal/MoodModalForm", () => {
         />
       );
       expect(screen.getByLabelText("Tell us about how you feel right now")).toBeInTheDocument();
-      expect(screen.getByRole("radio", { name: "Neutral" })).toBeChecked();
-      expect(screen.getByRole("checkbox", { name: "Apathetic" })).not.toBeChecked();
-      expect(screen.getByRole("checkbox", { name: "Bored" })).not.toBeChecked();
-      expect(screen.getByRole("checkbox", { name: "Tired" })).not.toBeChecked();
-      expect(screen.getByRole("checkbox", { name: "Sleepy" })).not.toBeChecked();
-      expect(
-        screen.getByRole("textbox", { name: "Add a few words to describe why you feel like that" })
-      ).toHaveValue("");
-      expect(
-        screen.getByRole("textbox", {
-          name: "Write down a small, enjoyable thing you can do tomorrow.",
-        })
-      ).toHaveValue("");
-      expect(
-        screen.getByRole("textbox", {
-          name: "When will you do it?",
-        })
-      ).toHaveValue("12:00");
+      assertDefaultForm();
       expect(screen.queryByRole("checkbox", { name: "Did you do it?" })).not.toBeInTheDocument();
     });
 
@@ -52,6 +36,32 @@ describe("MoodModal/MoodModalForm", () => {
       expect(didItCheckbox).toBeInTheDocument();
       expect(didItCheckbox).not.toBeChecked();
       expect(screen.getByText(defaultEntry.behavioralActivation!.action)).toBeInTheDocument();
+    });
+
+    test("Calls addEntry", async () => {
+      const entryAdded = Promise.resolve();
+      const addEntry = jest.fn(() => entryAdded);
+      render(
+        <>
+          <MoodModalForm
+            onClose={jest.fn()}
+            adding={{
+              addEntry: addEntry,
+              previousEntry: defaultEntry,
+            }}
+          />
+          <button type="submit" form="mood-form" data-testid="save" />
+        </>
+      );
+      let didItCheckbox = screen.getByRole("checkbox", { name: "Did you do it?" });
+      fireEvent.click(didItCheckbox);
+      expect(didItCheckbox).toBeInTheDocument();
+      expect(didItCheckbox).toBeChecked();
+      fireEvent.click(screen.getByTestId("save"));
+      expect(addEntry).toHaveBeenCalled();
+      assertDefaultForm();
+
+      await act(async () => await entryAdded);
     });
   });
 
@@ -87,6 +97,7 @@ describe("MoodModal/MoodModalForm", () => {
         })
       ).toHaveValue("12:00");
     });
+
     test("renders with behavioral activation checkbox", () => {
       render(
         <MoodModalForm
@@ -108,3 +119,24 @@ describe("MoodModal/MoodModalForm", () => {
     });
   });
 });
+
+function assertDefaultForm() {
+  expect(screen.getByRole("radio", { name: "Neutral" })).toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "Apathetic" })).not.toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "Bored" })).not.toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "Tired" })).not.toBeChecked();
+  expect(screen.getByRole("checkbox", { name: "Sleepy" })).not.toBeChecked();
+  expect(
+    screen.getByRole("textbox", { name: "Add a few words to describe why you feel like that" })
+  ).toHaveValue("");
+  expect(
+    screen.getByRole("textbox", {
+      name: "Write down a small, enjoyable thing you can do tomorrow.",
+    })
+  ).toHaveValue("");
+  expect(
+    screen.getByRole("textbox", {
+      name: "When will you do it?",
+    })
+  ).toHaveValue("12:00");
+}
