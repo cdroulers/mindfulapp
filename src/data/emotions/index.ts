@@ -38,10 +38,13 @@ export function getEmotionTranslation(lang: SupportedLanguage) {
 }
 
 function mapLang(emotions: JsonEmotion[], lang: SupportedLanguage): Record<string, string> {
-  return emotions.reduce((p, v) => {
-    p[v.code] = v.name[lang];
-    return p;
-  }, {} as Record<string, string>);
+  return emotions.reduce(
+    (p, v) => {
+      p[v.code] = v.name[lang];
+      return p;
+    },
+    {} as Record<string, string>
+  );
 }
 
 function mapCode(emotions: JsonEmotion[]): Emotion[] {

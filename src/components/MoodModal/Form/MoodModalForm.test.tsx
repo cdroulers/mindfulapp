@@ -1,8 +1,7 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import MoodModalForm from "./MoodModalForm";
 import { getDefaultEntry } from "../../../data/entries/__tests__/stubs";
-import { act } from "react-dom/test-utils";
 
 const defaultEntry = getDefaultEntry();
 
@@ -95,7 +94,7 @@ describe("MoodModal/MoodModalForm", () => {
         screen.getByRole("textbox", {
           name: "When will you do it?",
         })
-      ).toHaveValue("12:00");
+      ).toHaveValue(defaultEntry.behavioralActivation?.timestamp.getHours() + ":00");
     });
 
     test("renders with behavioral activation checkbox", () => {
