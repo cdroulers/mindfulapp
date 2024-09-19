@@ -1,9 +1,9 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import Entry from "./Entry";
-import { getDefaultEntry } from "../../../data/entries/__tests__/stubs";
+import { EntryDtoBuilder } from "../../../data/entries/__tests__/EntryDtoBuilder";
 
-const defaultEntry = getDefaultEntry();
+const defaultEntry = new EntryDtoBuilder().build();
 
 describe("Entries/Entry", () => {
   let onEditClick = jest.fn(),

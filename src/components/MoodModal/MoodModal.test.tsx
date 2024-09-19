@@ -1,9 +1,9 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import MoodModal from "./MoodModal";
-import { getDefaultEntry } from "../../data/entries/__tests__/stubs";
+import { EntryDtoBuilder } from "../../data/entries/__tests__/EntryDtoBuilder";
 
-const defaultEntry = getDefaultEntry();
+const defaultEntry = new EntryDtoBuilder().build();
 
 describe("MoodModal", () => {
   describe("Buttons", () => {

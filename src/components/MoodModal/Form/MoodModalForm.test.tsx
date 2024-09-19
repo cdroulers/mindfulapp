@@ -1,9 +1,10 @@
 import React from "react";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import MoodModalForm from "./MoodModalForm";
-import { getDefaultEntry } from "../../../data/entries/__tests__/stubs";
+import { EntryDtoBuilder } from "../../../data/entries/__tests__/EntryDtoBuilder";
 
-const defaultEntry = getDefaultEntry();
+const defaultEntry = new EntryDtoBuilder().build();
 
 describe("MoodModal/MoodModalForm", () => {
   describe("Adding entry", () => {
@@ -53,14 +54,12 @@ describe("MoodModal/MoodModalForm", () => {
         </>
       );
       const didItCheckbox = screen.getByRole("checkbox", { name: "Did you do it?" });
-      fireEvent.click(didItCheckbox);
+      await userEvent.click(didItCheckbox);
       expect(didItCheckbox).toBeInTheDocument();
       expect(didItCheckbox).toBeChecked();
-      fireEvent.click(screen.getByTestId("save"));
+      await userEvent.click(screen.getByTestId("save"));
       expect(addEntry).toHaveBeenCalled();
       assertDefaultForm();
-
-      await act(async () => await entryAdded);
     });
   });
 
