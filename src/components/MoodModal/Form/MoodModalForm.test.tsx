@@ -94,7 +94,7 @@ describe("MoodModal/MoodModalForm", () => {
         screen.getByRole("textbox", {
           name: "When will you do it?",
         })
-      ).toHaveValue("12:00");
+      ).toHaveValue(defaultEntry.behavioralActivation?.timestamp.getHours() + ":00");
     });
 
     test("renders with behavioral activation checkbox", () => {

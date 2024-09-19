@@ -7,7 +7,7 @@ import { getDefaultEntry } from "../../data/entries/__tests__/stubs";
 const entry1 = getDefaultEntry();
 const entry2: EntryDto = {
   ...entry1,
-  timestamp: new Date("2022-12-26T01:00:00Z"),
+  timestamp: new Date("2022-12-25T12:00:00Z"),
 };
 
 describe("Entries", () => {
