@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
-import Entry from "./Entry";
-import { EntryDtoBuilder } from "../../../data/entries/__tests__/EntryDtoBuilder";
+import Entry from "../Entry";
+import { EntryDtoBuilder } from "../../../../data/entries/__tests__/EntryDtoBuilder";
 
 const defaultEntry = new EntryDtoBuilder().build();
 
