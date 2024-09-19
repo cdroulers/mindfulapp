@@ -13,6 +13,7 @@ import "./Header.styles.scss";
 import i18n from "../../initializers/i18next";
 import logo from "../../logo.png";
 import version from "../../version.json";
+import { exportAll } from "../../data/db";
 
 export interface HeaderProps {}
 
@@ -31,6 +32,10 @@ function Header(props: HeaderProps) {
   const changeLang = (lang: string) => {
     i18n.changeLanguage(lang);
     handleClose();
+  };
+
+  const handleExport = async () => {
+    await exportAll();
   };
 
   return (
@@ -58,6 +63,7 @@ function Header(props: HeaderProps) {
           <MenuItem>
             <Link href="https://github.com/cdroulers/mindfulapp">Source</Link>
           </MenuItem>
+          <MenuItem onClick={handleExport}>{t("exportData")}</MenuItem>
           <MenuItem disabled>v{version.name}</MenuItem>
         </Menu>
         <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
