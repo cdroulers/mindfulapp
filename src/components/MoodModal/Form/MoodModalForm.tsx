@@ -50,7 +50,7 @@ function MoodModalForm({ onClose, adding, updating }: MoodModalFormProps): JSX.E
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.target as unknown as HTMLInputElement;
-    let name = target.name;
+    const name = target.name;
     let value: string | string[] = target.value;
     if (name === "secondaryMoods") {
       if (target.checked) {
