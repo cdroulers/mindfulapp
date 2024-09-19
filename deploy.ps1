@@ -11,7 +11,7 @@ function Main() {
     npm run build
   }
 
-  scp -o user=$UserName -r ./build/* cdroulers.com:/var/www/mindfulapp.ca
+  scp -o user=$UserName -o PubkeyAuthentication=no -o PreferredAuthentications=password -r ./build/* cdroulers.com:/var/www/mindfulapp.ca
 }
 
 function Update-Version() {
