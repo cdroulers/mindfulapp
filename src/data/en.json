@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "NO_FILE": "No import file was specified.",
+    "BULK_ERROR": "At least one error occurred while importing your data."
+  }
+}
