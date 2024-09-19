@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useRef, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,12 +13,14 @@ import "./Header.styles.scss";
 import i18n from "../../initializers/i18next";
 import logo from "../../logo.png";
 import version from "../../version.json";
+import { exportAll, importAll } from "../../data/db";
 
 export interface HeaderProps {}
 
 function Header(props: HeaderProps) {
   const [t] = useTranslation("Header");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,6 +33,14 @@ function Header(props: HeaderProps) {
   const changeLang = (lang: string) => {
     i18n.changeLanguage(lang);
     handleClose();
+  };
+
+  const handleExport = async () => {
+    await exportAll();
+  };
+  const handleImport = async (evt: ChangeEvent<HTMLInputElement>) => {
+    const result = await importAll(evt.target.files);
+    console.log("IMPORT", result);
   };
 
   return (
@@ -57,6 +67,11 @@ function Header(props: HeaderProps) {
           {i18n.language !== "en" && <MenuItem onClick={() => changeLang("en")}>English</MenuItem>}
           <MenuItem>
             <Link href="https://github.com/cdroulers/mindfulapp">Source</Link>
+          </MenuItem>
+          <MenuItem onClick={handleExport}>{t("exportData")}</MenuItem>
+          <MenuItem onClick={() => inputRef.current?.click()}>
+            {t("importData")}
+            <input type="file" ref={inputRef} style={{ display: "none" }} onChange={handleImport} />
           </MenuItem>
           <MenuItem disabled>v{version.name}</MenuItem>
         </Menu>

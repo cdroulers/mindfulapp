@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "NO_FILE": "Aucun fichier d'importation spécifié.",
+    "BULK_ERROR": "Au moins une erreur est survenue lors de l'importation."
+  }
+}
