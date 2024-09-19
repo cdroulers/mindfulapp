@@ -52,7 +52,7 @@ describe("MoodModal/MoodModalForm", () => {
           <button type="submit" form="mood-form" data-testid="save" />
         </>
       );
-      let didItCheckbox = screen.getByRole("checkbox", { name: "Did you do it?" });
+      const didItCheckbox = screen.getByRole("checkbox", { name: "Did you do it?" });
       fireEvent.click(didItCheckbox);
       expect(didItCheckbox).toBeInTheDocument();
       expect(didItCheckbox).toBeChecked();
