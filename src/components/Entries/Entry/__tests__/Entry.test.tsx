@@ -1,9 +1,10 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Entry from "../Entry";
 import { EntryDtoBuilder } from "../../../../data/entries/__tests__/EntryDtoBuilder";
+import { EntryPageObject } from "./EntryPageObject";
 
-const defaultEntry = new EntryDtoBuilder().build();
+const defaultEntry = new EntryDtoBuilder().withSecondaryMoods(["excited", "happy"]).build();
 
 describe("Entries/Entry", () => {
   let onEditClick = jest.fn(),
@@ -19,30 +20,32 @@ describe("Entries/Entry", () => {
         entry={defaultEntry}
         onEditClick={onEditClick}
         markBehavioralActivationAsDone={markAsDoneClick}
+        data-testid="entry"
       />
     );
-    expect(screen.getByText(defaultEntry.text)).toBeInTheDocument();
-    expect(screen.getByText("Good")).toBeInTheDocument();
-    expect(screen.getByText("Excited")).toBeInTheDocument();
-
-    expect(screen.getByText(defaultEntry.behavioralActivation!.action)).toBeInTheDocument();
+    const wrapper = new EntryPageObject(screen.getByTestId("entry"));
+    wrapper
+      .shouldHaveText(defaultEntry.text)
+      .and.shouldHavePrimaryMood("Good")
+      .and.shouldHaveSecondaryMoods(["Excited", "Happy"])
+      .and.shouldHaveBehavioralActivationText(defaultEntry.behavioralActivation!.action);
   });
 
-  test("Buttons do callbacks", () => {
+  test("Buttons do callbacks", async () => {
     render(
       <Entry
         entry={defaultEntry}
         onEditClick={onEditClick}
         markBehavioralActivationAsDone={markAsDoneClick}
+        data-testid="entry"
       />
     );
 
-    const didItBtns = screen.getAllByRole("button");
-    expect(didItBtns).toHaveLength(2);
-    const [editBtn, didItBtn] = didItBtns;
-    fireEvent.click(editBtn);
+    const wrapper = new EntryPageObject(screen.getByTestId("entry"));
+
+    await wrapper.clickEdit();
     expect(onEditClick).toHaveBeenCalledWith(defaultEntry);
-    fireEvent.click(didItBtn);
+    await wrapper.clickDidIt();
     expect(markAsDoneClick).toHaveBeenCalledWith(defaultEntry._id);
   });
 });

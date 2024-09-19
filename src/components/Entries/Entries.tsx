@@ -14,7 +14,7 @@ export type EntriesProps = {
   entries: EntryDto[];
 } & EntriesDependencies;
 
-function Entries({ entries, ...props }: EntriesProps): JSX.Element {
+function Entries({ entries, updateEntry, ...props }: EntriesProps): JSX.Element {
   const [t] = useTranslation("Entries");
   const [editing, setEditing] = useState<EntryDto | null>(null);
   const groupedByDate = groupBy(entries, (e) => t("timestamp", { date: e.timestamp }));
@@ -38,7 +38,7 @@ function Entries({ entries, ...props }: EntriesProps): JSX.Element {
           editing
             ? {
                 entry: editing,
-                updateEntry: props.updateEntry,
+                updateEntry: updateEntry,
               }
             : undefined
         }

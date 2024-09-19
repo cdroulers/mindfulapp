@@ -11,16 +11,23 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import "./Entry.styles.scss";
 import { EntryDto, PrimaryMood } from "../../../data/entries/EntryDto";
 import { EntryDependencies } from "./dependencies";
+import { ComponentPropsWithRef } from "react";
 
 export type EntryProps = {
   entry: EntryDto;
-} & EntryDependencies;
+} & EntryDependencies &
+  ComponentPropsWithRef<"li">;
 
-function Entry({ entry, markBehavioralActivationAsDone, onEditClick }: EntryProps): JSX.Element {
+function Entry({
+  entry,
+  markBehavioralActivationAsDone,
+  onEditClick,
+  ...props
+}: EntryProps): JSX.Element {
   const [t] = useTranslation(["Entry", "Shared", "Emotions"]);
   const primaryMood = t(`Shared:primaryMood.${entry.primaryMood}`);
   return (
-    <ListItem className="app-entry" divider>
+    <ListItem className="app-entry" divider {...props}>
       <ListItemAvatar>
         <Avatar>{getAvatar(entry.primaryMood)}</Avatar>
       </ListItemAvatar>

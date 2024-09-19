@@ -9,6 +9,12 @@ export class EntryDtoBuilder {
     return this;
   }
 
+  public withSecondaryMoods(moodKeys: string[]): EntryDtoBuilder {
+    this.entry.secondaryMoods = moodKeys;
+
+    return this;
+  }
+
   build(): EntryDto {
     return {
       _id: "lol",
