@@ -4,6 +4,15 @@ import i18next from "i18next";
 
 const db = new PouchDB("mindfulapp");
 
+const remoteDb = new PouchDB("http://cdroulers:Xtkl45!!@localhost:5984/mindfulapp_cdroulers");
+
+(async () => {
+  const results = await remoteDb.allDocs();
+  console.log({ results });
+})();
+
+db.sync(remoteDb);
+
 export default db;
 
 export async function exportAll(): Promise<void> {
